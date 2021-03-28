@@ -1,6 +1,10 @@
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { ethers } from "ethers";
-import { getMaxClaim, getTotalBalanceRemaining } from "./contracts/vesting";
+import {
+  getMaxClaim,
+  getTotalBalanceRemaining,
+  claimTokens,
+} from "./contracts/vesting";
 import { getBalance } from "./contracts/tlm";
 
 let provider, signer;
@@ -27,9 +31,11 @@ const accountMaxClaimDiv = document.getElementById("accountMaxClaim");
 
 // Basic Actions Section
 const onboardButton = document.getElementById("connectButton");
+const claimButton = document.getElementById("claimButton");
+
+const claimInput = document.getElementById("claimInput");
 
 let accounts;
-let vestingContract;
 let onboarding;
 
 const initialize = async () => {
@@ -87,6 +93,7 @@ const updateButtons = () => {
   } else if (isMetaMaskConnected()) {
     onboardButton.innerText = "Connected";
     onboardButton.disabled = true;
+    claimButton.onclick = claimTLM;
     if (onboarding) {
       onboarding.stopOnboarding();
     }
@@ -138,19 +145,31 @@ async function getNetworkAndChainId() {
 
 async function setBalance() {
   let balance = await getBalance();
-  accountBalanceDiv.innerHTML = parseFloat(balance).toFixed(4) + " TLM";
+  accountBalanceDiv.innerHTML = parseInt(balance) + " TLM";
 }
 
 async function setTotalBalanceRemaining() {
   let balance = await getTotalBalanceRemaining();
-  accountTotalBalanceRemainingDiv.innerHTML =
-    parseFloat(balance).toFixed(4) + " VTLM";
+  accountTotalBalanceRemainingDiv.innerHTML = parseInt(balance) + " VTLM";
 }
 
 async function setMaxClaim() {
   let amount = await getMaxClaim();
-  accountMaxClaimDiv.innerHTML = parseFloat(amount).toFixed(4) + " VTLM";
+  accountMaxClaimDiv.innerHTML = parseInt(amount) + " VTLM";
+  claimInput.value = parseInt(amount);
 }
+
+const claimTLM = async () => {
+  claimButton.disabled = true;
+  claimButton.innerText = "Waiting for blockchain confirmation...";
+  let amount = claimInput.value;
+  let transaction = await claimTokens(amount);
+  if (transaction) {
+    refreshData();
+  }
+  claimButton.disabled = false;
+  claimButton.innerText = "Claim";
+};
 
 function refreshData() {
   setBalance();

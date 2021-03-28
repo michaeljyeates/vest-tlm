@@ -263,3 +263,21 @@ export async function getMaxClaim() {
   let amount = await contract.maxClaim(signer.getAddress());
   return ethers.utils.formatUnits(amount, 4);
 }
+
+export async function claimTokens(amount) {
+  try {
+    const parsedAmount = ethers.utils.parseUnits(
+      parseInt(amount).toString(),
+      4
+    );
+    let tx = await contract.claim(parsedAmount);
+    const receipt = await tx.wait();
+    console.log(receipt);
+
+    // we can consider this transaction is mined now with 1 confirmation
+    return receipt;
+  } catch (err) {
+    console.log("error", err);
+    return false;
+  }
+}
