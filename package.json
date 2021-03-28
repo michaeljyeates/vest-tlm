@@ -8,7 +8,7 @@
     "lint:fix": "eslint . --fix --ext js,json && prettier ./src -c --write",
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
-    "test": "yarn lint",
+    "test": "yarn lint"
   },
   "repository": {
     "type": "git",
