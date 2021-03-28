@@ -266,10 +266,7 @@ export async function getMaxClaim() {
 
 export async function claimTokens(amount) {
   try {
-    const parsedAmount = ethers.utils.parseUnits(
-      parseInt(amount).toString(),
-      4
-    );
+    const parsedAmount = ethers.utils.parseUnits(amount, 4);
     let tx = await contract.claim(parsedAmount);
     const receipt = await tx.wait();
     console.log(receipt);
