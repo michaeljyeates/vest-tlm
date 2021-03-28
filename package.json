@@ -9,7 +9,6 @@
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
     "test": "yarn lint",
-    "prepare": "yarn test && yarn build"
   },
   "repository": {
     "type": "git",
