@@ -30,6 +30,21 @@ const abi = [
   {
     anonymous: false,
     inputs: [
+      { indexed: false, internalType: "uint64", name: "id", type: "uint64" },
+      { indexed: false, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokens",
+        type: "uint256",
+      },
+    ],
+    name: "Claimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
       {
         indexed: true,
         internalType: "address",
@@ -39,6 +54,27 @@ const abi = [
       { indexed: true, internalType: "address", name: "_to", type: "address" },
     ],
     name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: false, internalType: "string", name: "to", type: "string" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokens",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "chainId",
+        type: "uint256",
+      },
+    ],
+    name: "Teleport",
     type: "event",
   },
   {
@@ -58,17 +94,14 @@ const abi = [
   },
   {
     inputs: [],
-    name: "acceptOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
+    name: "_totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "newOwner", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "addTokens",
+    inputs: [],
+    name: "acceptOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -94,6 +127,17 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "tokens", type: "uint256" },
+      { internalType: "bytes", name: "data", type: "bytes" },
+    ],
+    name: "approveAndCall",
+    outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "address", name: "tokenOwner", type: "address" }],
     name: "balanceOf",
     outputs: [{ internalType: "uint256", name: "balance", type: "uint256" }],
@@ -101,30 +145,26 @@ const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    inputs: [
+      { internalType: "bytes", name: "sigData", type: "bytes" },
+      { internalType: "bytes[]", name: "signatures", type: "bytes[]" },
+    ],
     name: "claim",
-    outputs: [],
+    outputs: [{ internalType: "address", name: "toAddress", type: "address" }],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint64", name: "", type: "uint64" }],
+    name: "claimed",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "decimals",
     outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lockedTokenAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "user", type: "address" }],
-    name: "maxClaim",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -143,6 +183,13 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "oracles",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "owner",
     outputs: [{ internalType: "address", name: "", type: "address" }],
@@ -151,52 +198,61 @@ const abi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "owner", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "bytes32", name: "message", type: "bytes32" },
+      { internalType: "bytes", name: "sig", type: "bytes" },
     ],
-    name: "removeTokens",
+    name: "recoverSigner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_newOracle", type: "address" }],
+    name: "regOracle",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "schedules",
+    inputs: [{ internalType: "bytes", name: "sig", type: "bytes" }],
+    name: "splitSignature",
     outputs: [
-      { internalType: "uint32", name: "start", type: "uint32" },
-      { internalType: "uint32", name: "length", type: "uint32" },
-      { internalType: "uint256", name: "initial", type: "uint256" },
-      { internalType: "uint256", name: "tokens", type: "uint256" },
+      { internalType: "uint8", name: "", type: "uint8" },
+      { internalType: "bytes32", name: "", type: "bytes32" },
+      { internalType: "bytes32", name: "", type: "bytes32" },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "user", type: "address" },
-      { internalType: "uint32", name: "start", type: "uint32" },
-      { internalType: "uint32", name: "length", type: "uint32" },
-      { internalType: "uint256", name: "initial", type: "uint256" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "setSchedule",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "_lockedTokenAddress", type: "address" },
-    ],
-    name: "setTokenContract",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "pure",
     type: "function",
   },
   {
     inputs: [],
     name: "symbol",
     outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "string", name: "to", type: "string" },
+      { internalType: "uint256", name: "tokens", type: "uint256" },
+      { internalType: "uint256", name: "chainid", type: "uint256" },
+    ],
+    name: "teleport",
+    outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "thisChainId",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "threshold",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
     stateMutability: "view",
     type: "function",
   },
@@ -245,21 +301,37 @@ const abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    inputs: [{ internalType: "address", name: "_remOracle", type: "address" }],
+    name: "unregOracle",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "newChainId", type: "uint8" }],
+    name: "updateChainId",
+    outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "newThreshold", type: "uint8" }],
+    name: "updateThreshold",
+    outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   { stateMutability: "payable", type: "receive" },
 ];
 
-const address = "0x3333336D579A0107849Eb68C9f1c0B92D48C2889";
+const address = "0x888888848B652B3E3a0f34c96E00EEC0F3a23F72";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const contract = new ethers.Contract(address, abi, signer);
 
-export async function getTotalBalanceRemaining() {
+export async function getBalance() {
   let balance = await contract.balanceOf(signer.getAddress());
   return ethers.utils.formatUnits(balance, 4); // 4 decimals defined in the contract
-}
-
-export async function getMaxClaim() {
-  let amount = await contract.maxClaim(signer.getAddress());
-  return ethers.utils.formatUnits(amount, 4);
 }

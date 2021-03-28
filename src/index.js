@@ -1,6 +1,7 @@
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { ethers } from "ethers";
-import { getBalance } from "./contracts/vesting";
+import { getMaxClaim, getTotalBalanceRemaining } from "./contracts/vesting";
+import { getBalance } from "./contracts/tlm";
 
 let provider, signer;
 
@@ -19,6 +20,10 @@ const chainIdDiv = document.getElementById("chainId");
 const accountsDiv = document.getElementById("accounts");
 
 const accountBalanceDiv = document.getElementById("accountBalance");
+const accountTotalBalanceRemainingDiv = document.getElementById(
+  "accountTotalBalanceRemaining"
+);
+const accountMaxClaimDiv = document.getElementById("accountMaxClaim");
 
 // Basic Actions Section
 const onboardButton = document.getElementById("connectButton");
@@ -133,11 +138,24 @@ async function getNetworkAndChainId() {
 
 async function setBalance() {
   let balance = await getBalance();
-  accountBalanceDiv.innerHTML = balance;
+  accountBalanceDiv.innerHTML = parseFloat(balance).toFixed(4) + " TLM";
+}
+
+async function setTotalBalanceRemaining() {
+  let balance = await getTotalBalanceRemaining();
+  accountTotalBalanceRemainingDiv.innerHTML =
+    parseFloat(balance).toFixed(4) + " VTLM";
+}
+
+async function setMaxClaim() {
+  let amount = await getMaxClaim();
+  accountMaxClaimDiv.innerHTML = parseFloat(amount).toFixed(4) + " VTLM";
 }
 
 function refreshData() {
   setBalance();
+  setTotalBalanceRemaining();
+  setMaxClaim();
 }
 
 window.addEventListener("DOMContentLoaded", initialize);
