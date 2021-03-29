@@ -19,7 +19,6 @@ const isMetaMaskInstalled = () => {
 };
 
 // Dapp Status Section
-const networkDiv = document.getElementById("network");
 const chainIdDiv = document.getElementById("chainId");
 const accountsDiv = document.getElementById("accounts");
 
@@ -123,8 +122,6 @@ function handleNewNetwork(networkId) {
   if (networkId != 1) {
     alert("Please connect to the Ethereum mainnet");
   }
-
-  networkDiv.innerHTML = networkId;
 }
 
 async function getNetworkAndChainId() {

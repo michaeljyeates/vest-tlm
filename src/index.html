@@ -1,104 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Alien Worlds</title>
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-      rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
     />
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.1/css/mdb.min.css"
-      rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.1/css/mdb.min.css"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="index.css" type="text/css" />
-  </head>
-  <body>
-    <main class="container-fluid">
-      <header>
+    <link rel="stylesheet" href="index.css" type="text/css"/>
+</head>
+<body>
+<main class="container-fluid">
+    <header>
         <div id="logo-container">
-          <h1 id="logo-text" class="text-center">Alien Worlds ETH vesting example</h1>
+            <h1 id="logo-text" class="text-center">Alien Worlds</h1>
         </div>
-      </header>
-      <section>
-        <h3 class="card-title">Status</h3>
+    </header>
+    <section>
 
-        <div class="row">
-          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <p class="info-text alert alert-primary">
-              Network: <span id="network"></span>
-            </p>
-          </div>
-
-          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <p class="info-text alert alert-secondary">
-              ChainId: <span id="chainId"></span>
-            </p>
-          </div>
-
-          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <p class="info-text alert alert-success">
-              Accounts: <span id="accounts"></span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section>
         <div class="row d-flex justify-content-center">
-          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Claim VTLM</h4>
 
-                <button
-                  class="btn btn-primary btn-lg btn-block mb-3"
-                  id="connectButton"
-                  disabled
-                >
-                  Connect
-                </button>
-
+            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
                 <p class="info-text alert alert-secondary">
-                  Balance: <span id="accountBalance"></span>
+                    ChainId: <span id="chainId"></span>
                 </p>
-
-                <p class="info-text alert alert-secondary">
-                  Balance remaining: <span id="accountTotalBalanceRemaining"></span>
-                </p>
-
-                <p class="info-text alert alert-secondary">
-                  Claimable now: <span id="accountMaxClaim"></span>
-                </p>
-
-                <div id="claim-form">
-                  <input
-                          class="form-control"
-                          type="number"
-                          placeholder="amount of TLM to claim"
-                          id="claimInput"
-                          value="0"
-                  />
-
-                  <button
-                          class="btn btn-primary btn-lg btn-block mb-3"
-                          id="claimButton"
-                  >
-                    Claim
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                <p class="info-text alert alert-success">
+                    Accounts: <span id="accounts"></span>
+                </p>
+            </div>
+        </div>
+    </section>
 
-    </main>
+    <section>
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                <h3 class="card-title">Your Liquid TLM</h3>
+                <p class="info-text alert alert-secondary">
+                    Balance: <span id="accountBalance"></span>
+                </p>
+            </div>
+        </div>
+    </section>
 
-    <script src="bundle.js" defer></script>
-  </body>
+    <section>
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Claim Vested TLM (VTLM)</h4>
+
+                        <button
+                                class="btn btn-primary btn-lg btn-block mb-3"
+                                id="connectButton"
+                                disabled
+                        >
+                            Connect
+                        </button>
+
+                        <p class="info-text alert alert-secondary">
+                            Balance remaining: <span id="accountTotalBalanceRemaining"></span>
+                        </p>
+
+                        <p class="info-text alert alert-secondary">
+                            Claimable now: <span id="accountMaxClaim"></span>
+                        </p>
+
+                        <div id="claim-form">
+                            <input
+                                    class="form-control"
+                                    type="number"
+                                    placeholder="amount of TLM to claim"
+                                    id="claimInput"
+                                    value="0"
+                            />
+
+                            <button
+                                    class="btn btn-primary btn-lg btn-block mb-3"
+                                    id="claimButton"
+                            >
+                                Claim
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script src="bundle.js" defer></script>
+</body>
 </html>

@@ -13,3 +13,7 @@ section {
 .card {
   margin-bottom: 20px;
 }
+
+#claimButton{
+  margin-top: 10px;
+}
