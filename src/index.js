@@ -154,12 +154,12 @@ async function setBalance() {
 
 async function setTotalBalanceRemaining() {
   let balance = await getTotalBalanceRemaining();
-  accountTotalBalanceRemainingDiv.innerHTML = parseInt(balance) + " VTLM";
+  accountTotalBalanceRemainingDiv.innerHTML = parseInt(balance) + " TLM";
 }
 
 async function setMaxClaim() {
   let amount = await getMaxClaim();
-  accountMaxClaimDiv.innerHTML = parseInt(amount) + " VTLM";
+  accountMaxClaimDiv.innerHTML = parseInt(amount) + " TLM";
   claimInput.value = parseInt(amount);
 }
 
