@@ -7,6 +7,8 @@ import {
 } from "./contracts/vesting";
 import { getBalance } from "./contracts/tlm";
 
+let provider, signer;
+
 const currentUrl = new URL(window.location.href);
 const forwarderOrigin =
   currentUrl.hostname === "localhost" ? "http://localhost:9010" : undefined;
@@ -105,6 +107,8 @@ function handleNewAccounts(newAccounts) {
   accounts = newAccounts;
   accountsDiv.innerHTML = accounts;
   if (isMetaMaskConnected()) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    signer = provider.getSigner();
     refreshData();
   }
   updateButtons();
