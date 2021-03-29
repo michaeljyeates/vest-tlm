@@ -281,7 +281,16 @@ export async function getMaxClaim() {
 
 export async function claimTokens(amount) {
   try {
-    getCurrentProvider();
+    const max = await getMaxClaim();
+    if (amount <= 0) {
+      alert("Amount should be bigger than 0 TLM");
+      return false;
+    }
+
+    if (amount > max) {
+      alert("Amount should be less than " + parseInt(max) + " TLM");
+    }
+
     const parsedAmount = ethers.utils.parseUnits(amount, 4);
     let tx = await contract.claim(parsedAmount);
     const receipt = await tx.wait();
