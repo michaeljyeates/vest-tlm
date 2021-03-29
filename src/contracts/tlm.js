@@ -327,11 +327,21 @@ const abi = [
 
 const address = "0x888888848B652B3E3a0f34c96E00EEC0F3a23F72";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(address, abi, signer);
+let provider, signer, contract;
+
+function getCurrentProvider() {
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+  signer = provider.getSigner();
+  contract = new ethers.Contract(address, abi, signer);
+}
 
 export async function getBalance() {
-  let balance = await contract.balanceOf(signer.getAddress());
-  return ethers.utils.formatUnits(balance, 4); // 4 decimals defined in the contract
+  try {
+    getCurrentProvider();
+    let balance = await contract.balanceOf(signer.getAddress());
+    return ethers.utils.formatUnits(balance, 4); // 4 decimals defined in the contract
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
 }

@@ -250,22 +250,38 @@ const abi = [
 
 const address = "0x3333336D579A0107849Eb68C9f1c0B92D48C2889";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(address, abi, signer);
+let provider, signer, contract;
 
+function getCurrentProvider() {
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+  signer = provider.getSigner();
+  contract = new ethers.Contract(address, abi, signer);
+}
 export async function getTotalBalanceRemaining() {
-  let balance = await contract.balanceOf(signer.getAddress());
-  return ethers.utils.formatUnits(balance, 4); // 4 decimals defined in the contract
+  try {
+    getCurrentProvider();
+    let balance = await contract.balanceOf(signer.getAddress());
+    return ethers.utils.formatUnits(balance, 4); // 4 decimals defined in the contract
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
 }
 
 export async function getMaxClaim() {
-  let amount = await contract.maxClaim(signer.getAddress());
-  return ethers.utils.formatUnits(amount, 4);
+  try {
+    getCurrentProvider();
+    let amount = await contract.maxClaim(signer.getAddress());
+    return ethers.utils.formatUnits(amount, 4);
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
 }
 
 export async function claimTokens(amount) {
   try {
+    getCurrentProvider();
     const parsedAmount = ethers.utils.parseUnits(amount, 4);
     let tx = await contract.claim(parsedAmount);
     const receipt = await tx.wait();
