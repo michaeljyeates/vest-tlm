@@ -89,10 +89,12 @@ const updateButtons = () => {
     onboardButton.innerText = "Click here to install MetaMask!";
     onboardButton.onclick = onClickInstall;
     onboardButton.disabled = false;
+    claimButton.disabled = true;
   } else if (isMetaMaskConnected()) {
     onboardButton.innerText = "Connected";
     onboardButton.disabled = true;
     claimButton.onclick = claimTLM;
+    claimButton.disabled = false;
     if (onboarding) {
       onboarding.stopOnboarding();
     }
@@ -100,6 +102,7 @@ const updateButtons = () => {
     onboardButton.innerText = "Connect";
     onboardButton.onclick = onClickConnect;
     onboardButton.disabled = false;
+    claimButton.disabled = true;
   }
 };
 
@@ -124,9 +127,7 @@ function handleNewNetwork(networkId) {
     alert("Please connect to the Ethereum mainnet");
     claimButton.disabled = true;
   } else {
-    if (isMetaMaskConnected) {
-      claimButton.disabled = false;
-    }
+    claimButton.disabled = !isMetaMaskConnected();
   }
 }
 
