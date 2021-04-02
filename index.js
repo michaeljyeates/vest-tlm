@@ -7,9 +7,9 @@ let webpackDevServerOptions = {
   publicPath: "/",
   contentBase: path.join(process.cwd(), "dist"),
   historyApiFallback: true,
+  host: "localhost",
+  allowedHosts: [".repl.it", ".repl.co", ".repl.run", ".alienworlds.io"],
   hot: true,
-  host: "0.0.0.0",
-  allowedHosts: [".repl.it", ".repl.co", ".repl.run"],
 };
 
 webpackDevServer.addDevServerEntrypoints(

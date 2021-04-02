@@ -1,20 +1,21 @@
-const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
-const DIST = path.resolve(__dirname, 'dist')
+const DIST = path.resolve(__dirname, "dist");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  mode: "production",
+  entry: "./src/index.js",
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js",
     path: DIST,
     publicPath: DIST,
   },
   devServer: {
     contentBase: DIST,
-    port: 9011,
+    port: process.env.PORT || "3000",
+    hot: true,
     writeToDisk: true,
   },
   plugins: [
@@ -25,12 +26,12 @@ module.exports = {
       patterns: [
         {
           flatten: true,
-          from: './src/*',
+          from: "./src/*",
           globOptions: {
-            ignore: ['**/*.js'],
+            ignore: ["**/*.js"],
           },
         },
       ],
     }),
   ],
-}
+};
